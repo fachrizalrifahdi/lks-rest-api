@@ -12,6 +12,11 @@ class Foto extends Model
     protected $table = 'foto';
 
     protected $fillable = [
-        'name', 'url'
+        'name', 'url', 'album_id'
     ];
+
+    public function album()
+    {
+        return $this->belongsTo(Album::class);
+    }
 }

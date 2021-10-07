@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Foto')
+@section('title', 'Album')
+
 
 @section('content')
     <h4>Lihat Foto</h4>

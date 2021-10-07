@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\FotoController;
+use App\Http\Controllers\{FotoController, AlbumController};
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +17,12 @@ use App\Http\Controllers\FotoController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
 
 Route::get('/foto', [FotoController::class, 'index'])->name('foto.index');
 Route::get('/foto/create', [FotoController::class, 'create'])->name('foto.create');
@@ -26,3 +31,5 @@ Route::get('/foto/{id}', [FotoController::class, 'show'])->name('foto.show');
 Route::get('/foto/{id}/edit', [FotoController::class, 'edit'])->name('foto.edit');
 Route::put('/foto/{id}', [FotoController::class, 'update'])->name('foto.update');
 Route::delete('/foto/{id}', [FotoController::class, 'destroy'])->name('foto.destroy');
+
+Route::resource('albums', AlbumController::class);

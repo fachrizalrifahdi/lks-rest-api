@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Foto;
+use App\Models\Album;
 
 class FotoController extends Controller
 {
@@ -26,7 +27,9 @@ class FotoController extends Controller
      */
     public function create()
     {
-        return view('foto.create');
+        $albums = Album::all();
+
+        return view('foto.create', compact('albums'));
     }
 
     /**

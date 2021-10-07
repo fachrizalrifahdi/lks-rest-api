@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', 'About')
 
 @section('content')
-    <p>home disni</p>
+    <p>about disni</p>
 @endsection
