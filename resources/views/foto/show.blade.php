@@ -17,6 +17,10 @@
                 <td>{{ $foto->name }}</td>
             </tr>
             <tr>
+                <td>Nama Album : </td>
+                <td>{{ $foto->album_name }}</td>
+            </tr>
+            <tr>
                 <td>Foto :</td>
                 <td><img src="{{ $foto->url }}" alt="foto"></td>
             </tr>

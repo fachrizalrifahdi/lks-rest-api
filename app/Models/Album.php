@@ -10,5 +10,11 @@ class Album extends Model
     use HasFactory;
 
     protected $guarded = [];
-    
+
+    protected $with = ['fotos'];
+
+    public function fotos(){
+        return $this->hasMany(Foto::class);
+    }
+
 }

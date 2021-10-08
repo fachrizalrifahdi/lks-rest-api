@@ -15,11 +15,16 @@
         <tbody>
             <tr>
                 <td>Nama :</td>
-                <td>{{ $foto->name }}</td>
+                <td>{{ $album->name }}</td>
             </tr>
             <tr>
                 <td>Foto :</td>
-                <td><img src="{{ $foto->url }}" alt="foto"></td>
+                <td>
+                    @foreach ($album->fotos as $foto)
+                        <span>{{ $foto->name }}</span>
+                        <img src="{{ $foto->url }}" alt="foto"><br />
+                    @endforeach
+                </td>
             </tr>
         </tbody>
     </table>
