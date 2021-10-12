@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Album;
+use App\Models\Foto;
 use Exception;
 use PhpParser\Node\Expr\Throw_;
 use Throwable;
 
-class AlbumController extends Controller
+class FotoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,31 +18,25 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        $albums = Album::all();
-
+        $fotos = Foto::all();
         try {
-            if (!$albums) {
+            if (!$fotos) {
                 throw new Exception();
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'response' => 200,
+                    'message' => 'fotos found',
+                    'data' => $fotos
+                ]);
             }
-            return response()->json([
-                'success' => true,
-                'response' => 200,
-                'message' => 'berhasil memanggil data',
-                'data' => $albums
-            ]);
         } catch (Throwable $e) {
             return response()->json([
                 'success' => false,
                 'response' => 404,
-                'message' => 'data tidak ditemukan'
+                'message' => 'fotos not found'
             ]);
         }
-        // return response()->json([
-        //     'success' => true,
-        //     'response' => 200,
-        //     'message' => 'berhasil memanggil data',
-        //     'data' => $albums
-        // ]);
     }
 
     /**
@@ -52,7 +46,6 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -63,18 +56,17 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        $album = new Album;
+        $foto = new Foto;
         try {
-            $album->nama = $request->nama;
-            $album->save();
+            $foto->nama = $request->nama;
+            $foto->url = $request->url;
+            $foto->album_id = $request->album_id;
+            $foto->save();
             return response()->json([
                 'success' => true,
                 'response' => 201,
-                'message' => 'berhasil menambahkan data',
-                'data' => [
-                    'id' => $album->id,
-                    'nama' => $album->nama
-                ]
+                'message' => 'foto created',
+                'data' => $foto
             ]);
         } catch (Throwable $e) {
             return response()->json([
@@ -83,18 +75,14 @@ class AlbumController extends Controller
                 'message' => 'bad request'
             ]);
         }
+        // $foto->nama = $request->nama;
+        // $foto->url = $request->url;
+        // $foto->album_id = $request->album_id;
+        // $result = $foto->save();
         // if ($result) {
-        //     return response()->json([
-        //         'success' => true,
-        //         'response' => 201,
-        //         'message' => 'berhasil menambahkan album',
-        //         'data' => [
-        //             'id' => $album->id,
-        //             'nama' => $album->nama
-        //         ]
-        //     ]);
+        //     return ["result" => "berhasil menambahkan foto " . $request->nama];
         // }
-        // return ['Result' => "gagal"];
+        // return ["result" => "gagal menambahkan foto " . $request->nama];
     }
 
     /**
@@ -105,23 +93,22 @@ class AlbumController extends Controller
      */
     public function show($id)
     {
-        $album = Album::find($id);
+        $foto = Foto::find($id);
         try {
-            if (!$album) {
+            if (!$foto) {
                 throw new Exception();
             }
             return response()->json([
                 'success' => true,
                 'response' => 200,
                 'message' => 'berhasil memanggil data',
-                'data' => $album
+                'data' => $foto
             ]);
         } catch (Throwable $e) {
             return response()->json([
                 'success' => false,
                 'response' => 404,
-                'message' => 'data tidak ditemukan',
-                'id' => $id
+                'message' => 'data tidak ditemukan'
             ]);
         }
     }
@@ -146,27 +133,18 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $album = Album::find($id);
-        // $album->nama = $request->input("nama");
-        // $result = $album->save();
-        // if ($result) {
-        //     return response()->json([
-        //         'success' => true,
-        //         'response' => 200,
-        //         'message' => 'berhasil mengubah data',
-        //         'data' => $album
-        //     ]);
-        // }
-        // return ["result" => "album gagal diupdate"];
+        $foto = Foto::find($id);
+
         try {
-            $album = Album::find($id);
-            $album->nama = $request->input("nama");
-            $album->save();
+            $foto->nama = $request->nama;
+            $foto->url = $request->url;
+            $foto->album_id = $request->album_id;
+            $foto->save();
             return response()->json([
                 'success' => true,
                 'response' => 200,
-                'message' => 'berhasil mengubah data',
-                'data' => $album
+                'message' => 'foto berhasil diubah',
+                'data' => $foto
             ]);
         } catch (Throwable $e) {
             return response()->json([
@@ -175,6 +153,15 @@ class AlbumController extends Controller
                 'message' => 'bad request'
             ]);
         }
+
+        // $foto->nama = $request->nama;
+        // $foto->url = $request->url;
+        // $foto->album_id = $request->album_id;
+        // $result = $foto->save();
+        // if ($result) {
+        //     return ['berhasil' => 'berhasil mengubah data ' . $request->nama];
+        // }
+        // return ['gagal' => 'gagal mengubah data ' . $request->nama];
     }
 
     /**
@@ -185,30 +172,33 @@ class AlbumController extends Controller
      */
     public function destroy($id)
     {
-        $album = Album::find($id);
+        $foto = Foto::find($id);
+
         try {
-            if (!$album) {
+            if (!$foto) {
                 throw new Exception();
             } else {
-                $album->delete();
+                $foto->delete();
                 return response()->json([
                     'success' => true,
                     'response' => 200,
-                    'message' => 'berhasil menghapus data',
-                    'data' => $album
+                    'message' => 'foto berhasil dihapus',
+                    'data' => $foto
                 ]);
             }
         } catch (Throwable $e) {
             return response()->json([
                 'success' => false,
                 'response' => 404,
-                'message' => 'album not found',
+                'message' => 'foto not found',
                 'id' => $id
             ]);
         }
+
+        // $result = $foto->delete();
         // if ($result) {
-        //     return ["result" => 'Album id ' . $id . " telah dihapus"];
+        //     return ['berhasil' => 'berhasil menghapus foto ' . $foto->nama];
         // }
-        // return ["result" => 'Album id ' . $id . " gagal dihapus"];
+        // return ['gagal' => 'berhasil menghapus foto '];
     }
 }
