@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/albums', [AlbumController::class, 'index']);
+Route::put('/albums/{id}', [AlbumController::class, 'update']);
